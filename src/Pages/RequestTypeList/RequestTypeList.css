@@ -1,0 +1,28 @@
+.request-type-list-container {
+  margin-top: 2rem;
+}
+
+.list-item {
+  padding: 0;
+  margin-bottom: 1rem;
+}
+
+.request-type-card {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+.request-type-card .MuiCardContent-root {
+  flex-grow: 1;
+}
+
+.request-type-card .MuiCardActions-root {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0;
+}
