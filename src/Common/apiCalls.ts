@@ -1,8 +1,8 @@
 import axios from "axios";
 
-// const API_URL = "https://coheso-production.up.railway.app/api"; // Replace with your actual API URL
+const API_URL = "https://coheso-production.up.railway.app/api"; // Replace with your actual API URL
 
-const API_URL = "http://localhost:5000/api";
+// const API_URL = "http://localhost:5000/api";
 export interface RequestTypeDetails {
   requestType: string;
   purpose: string;
