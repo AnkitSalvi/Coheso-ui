@@ -32,7 +32,11 @@ const Header = () => {
           About Us
         </a>
         {isAuthenticated && (
-          <a href="/" className="header-navlink" onClick={handleLogout}>
+          <a
+            href="/Coheso-ui"
+            className="header-navlink"
+            onClick={handleLogout}
+          >
             Log out
           </a>
         )}

@@ -23,7 +23,6 @@ export async function addRequestTypeForUser(
   requestDetails: RequestTypeDetails
 ) {
   try {
-    console.log("requestDetails:", requestDetails);
     const response = await axios.post(
       `${API_URL}/requestTypes`,
       {
@@ -39,7 +38,6 @@ export async function addRequestTypeForUser(
       }
     );
 
-    console.log("Request type created successfully:", response.data);
     return response.data;
   } catch (error) {
     console.error("Error adding request type:", error);
@@ -57,7 +55,6 @@ export async function getRequestTypesForUser(userId: string) {
       },
     });
 
-    console.log("Request types retrieved successfully:", response.data);
     return response.data;
   } catch (error) {
     console.error("Error retrieving request types:", error);
@@ -83,7 +80,6 @@ export async function updateRequestTypeForUser(
       }
     );
 
-    console.log("Request type updated successfully:", response.data);
     return response.data;
   } catch (error) {
     console.error("Error updating request type:", error);
@@ -107,7 +103,6 @@ export async function deleteRequestTypeForUser(
       }
     );
 
-    console.log("Request type deleted successfully:", response.data);
     return response.data;
   } catch (error) {
     console.error("Error deleting request type:", error);
@@ -117,7 +112,6 @@ export async function deleteRequestTypeForUser(
 
 export async function loginUser(email: string, password: string) {
   try {
-    console.log("Login attempt for:", email);
     const response = await axios.post(
       `${API_URL}/auth/login`, // Replace with your actual login endpoint
       {
@@ -131,7 +125,6 @@ export async function loginUser(email: string, password: string) {
       }
     );
 
-    console.log("Login successful:", response.data);
     return response.data; // This typically includes the token or user details
   } catch (error) {
     console.error("Error logging in:", error);

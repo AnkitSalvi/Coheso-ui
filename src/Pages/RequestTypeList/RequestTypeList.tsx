@@ -77,7 +77,7 @@ const RequestTypeList: React.FC = () => {
   }, [user]);
 
   useEffect(() => {
-    console.log("userId:", userId);
+
     if (userId) {
       getRequestTypesForUser(userId)
         .then((data) => {
@@ -216,6 +216,7 @@ const RequestTypeList: React.FC = () => {
             initialRequestType={currentRequestType?.requestType || ""}
             initialPurpose={currentRequestType?.purpose || ""}
             initialRequestTypeOwner={currentRequestType?.requestTypeOwner || ""}
+            requestId={currentRequestType?.id || ""}
             initialInformationToCollect={
               currentRequestType?.informationToCollect || []
             }

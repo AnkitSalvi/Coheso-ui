@@ -25,8 +25,6 @@ const Sidebar = () => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const { user } = useUser();
 
-  console.log("user:", user);
-
   const handleListItemClick = (index: number) => {
     setSelectedIndex(index);
   };

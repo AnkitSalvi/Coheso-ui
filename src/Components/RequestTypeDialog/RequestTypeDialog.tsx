@@ -30,6 +30,7 @@ interface RequestTypeDialogProps {
   initialRequestType: string;
   initialPurpose: string;
   initialRequestTypeOwner: string;
+  requestId: string;
   initialInformationToCollect: Array<{
     label: string;
     type: string;
@@ -52,6 +53,7 @@ const RequestTypeDialog: React.FC<RequestTypeDialogProps> = ({
   onClose,
   initialRequestType,
   initialPurpose,
+  requestId,
   initialRequestTypeOwner,
   initialInformationToCollect,
   onSubmit,
@@ -67,7 +69,7 @@ const RequestTypeDialog: React.FC<RequestTypeDialogProps> = ({
     validationSchema: validationSchema,
     onSubmit: (values) => {
       onSubmit({
-        id: uuidv4(),
+        id: requestId || uuidv4(),
         ...values,
         createdAt: new Date().toISOString(),
       });

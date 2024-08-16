@@ -35,8 +35,6 @@ const LoginPage: React.FC = () => {
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
-      console.log("Login Data", values);
-
       try {
         const user = await login(values.email, values.password);
         if (user) {
