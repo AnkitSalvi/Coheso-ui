@@ -11,7 +11,7 @@
 
 .header-title {
   flex-grow: 1;
-  margin-left: 16px; /* Equivalent to ml: 2 (2 * 8px = 16px) */
+  margin-left: 16px;
 }
 
 .header-nav {

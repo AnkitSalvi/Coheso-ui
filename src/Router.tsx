@@ -9,7 +9,7 @@ const AppRouter: React.FC = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<LoginPage />} />
+        <Route path="/Coheso-ui" element={<LoginPage />} />
         <Route
           path="/home"
           element={<PrivateRoute element={<RequestTypeList />} />}

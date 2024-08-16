@@ -1,7 +1,6 @@
 .sidebar-container {
-  width: 250px;
+  width: 22%;
   background-color: #e8f3fa;
-  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -62,18 +61,23 @@
 }
 
 .sidebar-profile {
-  margin-top: auto;
   padding: 15px 20px;
-  width: 100%;
+  width: 87%;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #d9e6f2;
+  background-color: #97bfe3;
   border-radius: 10px;
+  margin-bottom: 50px;
 }
 
 .sidebar-profile-info {
   margin-left: 10px;
   display: flex;
   flex-direction: column;
+}
+
+.sidebar-navitem.selected {
+  background-color: white; /* Highlight color */
+  border-radius: 4px;
 }

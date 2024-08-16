@@ -1,0 +1,39 @@
+.dialog-title {
+  text-align: center;
+  font-weight: bold;
+  color: #3497d5 !important; /* Red color for the delete action */
+}
+
+.dialog-content {
+  padding: 2rem;
+  padding-top: 0 !important;
+}
+
+.dialog-content-text {
+  font-size: 1rem;
+  color: #333; /* Dark gray for better readability */
+}
+
+.dialog-actions {
+  justify-content: center;
+  padding: 1rem;
+}
+
+.cancel-button {
+  margin-right: 1rem;
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+.cancel-button:hover {
+  background-color: #bdbdbd;
+}
+
+.delete-button {
+  background-color: #d32f2f;
+  color: #ffffff;
+}
+
+.delete-button:hover {
+  background-color: #c62828;
+}

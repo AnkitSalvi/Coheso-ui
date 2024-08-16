@@ -10,9 +10,17 @@ import {
 import Logo from "../Logo/Logo";
 import "./Header.css"; // Import the CSS file
 import { useNavigate } from "react-router-dom";
+import { useUser } from "../../Context/UserContext";
 
 const Header = () => {
   const navigate = useNavigate();
+
+  const { isAuthenticated, logout } = useUser();
+
+  const handleLogout = () => {
+    logout(); // Call the logout function
+    navigate("/"); // Redirect to login page or another route after logging out
+  };
   return (
     <AppBar position="static" className="header-appbar">
       <div className="logo-container">
@@ -20,12 +28,14 @@ const Header = () => {
       </div>
 
       <Box className="header-nav">
-        <a href="/about" className="header-navlink">
+        <a href="https://www.coheso.ai/" className="header-navlink">
           About Us
         </a>
-        <a href="/" className="header-navlink">
-          Log out
-        </a>
+        {isAuthenticated && (
+          <a href="/" className="header-navlink" onClick={handleLogout}>
+            Log out
+          </a>
+        )}
       </Box>
     </AppBar>
   );

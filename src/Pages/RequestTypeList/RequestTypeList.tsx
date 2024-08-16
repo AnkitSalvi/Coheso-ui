@@ -10,28 +10,36 @@ import {
   Container,
   Button,
   TextField,
+  InputAdornment,
   Pagination,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Box,
 } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
 import { useRequestTypeContext } from "../../Context/RequestTypeContext";
 import Header from "../../Components/Header/Header";
 import RequestTypeDialog from "../../Components/RequestTypeDialog/RequestTypeDialog";
+import Sidebar from "../../Components/Sidebar/Sidebar";
 import {
   addRequestTypeForUser,
   getRequestTypesForUser,
   updateRequestTypeForUser,
   deleteRequestTypeForUser,
 } from "../../Common/apiCalls";
+import RequestTypeCard from "../../Components/RequestTypeCard/RequestTypeCard";
 import { RequestType } from "../../Context/RequestTypeContext";
-import { toast, ToastContainer } from "react-toastify"; // Import toast and ToastContainer
-import "react-toastify/dist/ReactToastify.css"; // Import CSS for toast
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useUser } from "../../Context/UserContext";
+import DeleteConfirmationDialog from "../../Components/DeleteConfirmationDialog/DeleteConfirmationDialog";
+
 import "./RequestTypeList.css";
 
 // Function to sort request types by createdAt
@@ -55,21 +63,30 @@ const RequestTypeList: React.FC = () => {
   const [requestTypeToDelete, setRequestTypeToDelete] =
     useState<RequestType | null>(null);
 
-  const [userId, setUserId] = useState("9398517b-33db-4857-ba9e-cc0eced97e3f");
+  const { user } = useUser();
+  // TODO: Fetch the userId from auth context
+  const [userId, setUserId] = useState("");
 
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 3;
-
-  const { addRequestType } = useRequestTypeContext();
+  const itemsPerPage = 2;
 
   useEffect(() => {
-    getRequestTypesForUser(userId)
-      .then((data) => {
-        const sortedData = sortByCreatedAt(data);
-        setRequestTypes(sortedData);
-        setFilteredRequestTypes(sortedData);
-      })
-      .catch((e) => console.log(e));
+    if (user && user.id) {
+      setUserId(user.id);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    console.log("userId:", userId);
+    if (userId) {
+      getRequestTypesForUser(userId)
+        .then((data) => {
+          const sortedData = sortByCreatedAt(data);
+          setRequestTypes(sortedData);
+          setFilteredRequestTypes(sortedData);
+        })
+        .catch((e) => console.log(e));
+    }
   }, [userId]);
 
   useEffect(() => {
@@ -92,19 +109,19 @@ const RequestTypeList: React.FC = () => {
         );
         const sortedUpdatedRequestTypes = sortByCreatedAt(updatedRequestTypes);
         setRequestTypes(sortedUpdatedRequestTypes);
-        toast.success("Request type updated successfully!"); // Success toast
+        toast.success("Request type updated successfully!");
       } else {
         await addRequestTypeForUser(userId, values);
         const newRequestTypes = [...requestTypes, values];
         const sortedNewRequestTypes = sortByCreatedAt(newRequestTypes);
         setRequestTypes(sortedNewRequestTypes);
-        toast.success("Request type added successfully!"); // Success toast
+        toast.success("Request type added successfully!");
       }
       setOpen(false);
       setIsEditMode(false);
       setCurrentRequestType(null);
     } catch (error) {
-      toast.error("An error occurred. Please try again."); // Error toast
+      toast.error("An error occurred. Please try again.");
     }
   };
 
@@ -126,9 +143,9 @@ const RequestTypeList: React.FC = () => {
         setFilteredRequestTypes(sortedUpdatedRequestTypes);
         setConfirmDeleteOpen(false);
         setRequestTypeToDelete(null);
-        toast.success("Request type deleted successfully!"); // Success toast
+        toast.success("Request type deleted successfully!");
       } catch (error) {
-        toast.error("An error occurred. Please try again."); // Error toast
+        toast.error("An error occurred. Please try again.");
       }
     }
   };
@@ -160,106 +177,89 @@ const RequestTypeList: React.FC = () => {
   return (
     <>
       <Header />
-      <Container maxWidth="md" className="request-type-list-container">
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => {
-            setIsEditMode(false);
-            setCurrentRequestType(null);
-            setOpen(true);
-          }}
-        >
-          <AddIcon /> Add Request Type
-        </Button>
+      <Container className="request-type-list-parent-container">
+        <Sidebar />
+        <Container maxWidth="md" className="request-type-list-container">
+          <TextField
+            fullWidth
+            margin="normal"
+            variant="outlined"
+            label="Search Request Types"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+            }}
+            className="search-textfield"
+          />
 
-        <TextField
-          fullWidth
-          margin="normal"
-          variant="outlined"
-          label="Search Request Types"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
+          <Button
+            variant="contained"
+            color="primary"
+            className="add-request-type-button"
+            onClick={() => {
+              setIsEditMode(false);
+              setCurrentRequestType(null);
+              setOpen(true);
+            }}
+          >
+            <AddIcon /> Add Request Type
+          </Button>
 
-        <RequestTypeDialog
-          open={open}
-          onClose={() => setOpen(false)}
-          initialRequestType={currentRequestType?.requestType || ""}
-          initialPurpose={currentRequestType?.purpose || ""}
-          initialRequestTypeOwner={currentRequestType?.requestTypeOwner || ""}
-          initialInformationToCollect={
-            currentRequestType?.informationToCollect || []
-          }
-          onSubmit={handleDialogSubmit}
-        />
-        <List>
-          {currentRequestTypes.map((requestType) => (
-            <ListItem key={requestType.id} className="list-item">
-              <Card key={requestType.id} className="request-type-card">
-                <CardContent>
-                  <Typography variant="h6" component="div">
-                    {requestType.requestType}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {requestType.purpose}
-                  </Typography>
-                </CardContent>
-                <CardActions>
-                  <IconButton
-                    edge="end"
-                    aria-label="edit"
-                    onClick={() => handleEdit(requestType)}
-                  >
-                    <EditIcon />
-                  </IconButton>
-                  <IconButton
-                    edge="end"
-                    aria-label="delete"
-                    onClick={() => handleDeleteClick(requestType)}
-                  >
-                    <DeleteIcon />
-                  </IconButton>
-                </CardActions>
-              </Card>
-            </ListItem>
-          ))}
-        </List>
+          <RequestTypeDialog
+            open={open}
+            onClose={() => setOpen(false)}
+            initialRequestType={currentRequestType?.requestType || ""}
+            initialPurpose={currentRequestType?.purpose || ""}
+            initialRequestTypeOwner={currentRequestType?.requestTypeOwner || ""}
+            initialInformationToCollect={
+              currentRequestType?.informationToCollect || []
+            }
+            onSubmit={handleDialogSubmit}
+          />
+          {currentRequestTypes.length > 0 ? (
+            <List className="card-list">
+              {currentRequestTypes.map((requestType) => (
+                <RequestTypeCard
+                  requestType={requestType}
+                  handleEdit={handleEdit}
+                  handleDeleteClick={handleDeleteClick}
+                />
+              ))}
+            </List>
+          ) : (
+            <Container className="no-content-container">
+              <img
+                src="https://cdn.dribbble.com/users/683081/screenshots/2728654/media/d6f3cc39f60fcd48bc2236264b4748b9.png"
+                alt="No Request Types"
+                className="no-content-image"
+              />
+              <Typography variant="h6" className="no-content-text">
+                Try adding some!!
+              </Typography>
+            </Container>
+          )}
 
-        <Pagination
-          count={Math.ceil(filteredRequestTypes.length / itemsPerPage)}
-          page={currentPage}
-          onChange={handlePageChange}
-          color="primary"
-          className="pagination"
-        />
+          <Pagination
+            count={Math.ceil(filteredRequestTypes.length / itemsPerPage)}
+            page={currentPage}
+            onChange={handlePageChange}
+            color="primary"
+            className="pagination"
+          />
 
-        {/* Delete Confirmation Dialog */}
-        <Dialog
-          open={confirmDeleteOpen}
-          onClose={handleCancelDelete}
-          aria-labelledby="delete-confirmation-dialog"
-        >
-          <DialogTitle id="delete-confirmation-dialog">
-            Delete Request Type
-          </DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              Are you sure you want to delete the request type "
-              {requestTypeToDelete?.requestType}"?
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleCancelDelete} color="primary">
-              Cancel
-            </Button>
-            <Button onClick={handleDelete} color="secondary">
-              Delete
-            </Button>
-          </DialogActions>
-        </Dialog>
+          <DeleteConfirmationDialog
+            open={confirmDeleteOpen}
+            onClose={handleCancelDelete}
+            onConfirm={handleDelete}
+            requestTypeToDelete={requestTypeToDelete}
+          />
+        </Container>
       </Container>
-      {/* Toast container */}
       <ToastContainer />
     </>
   );

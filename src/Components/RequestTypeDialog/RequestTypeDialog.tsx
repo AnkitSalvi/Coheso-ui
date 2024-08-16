@@ -22,7 +22,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { v4 as uuidv4 } from "uuid";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { addRequestTypeForUser } from "../../Common/apiCalls";
+import "./RequestTypeDialog.css";
 
 interface RequestTypeDialogProps {
   open: boolean;
@@ -102,10 +102,10 @@ const RequestTypeDialog: React.FC<RequestTypeDialogProps> = ({
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
-      <DialogTitle>Add New Request Type</DialogTitle>
-      <DialogContent>
-        <Card>
-          <CardContent>
+      <DialogTitle className="dialog-title">Add New Request Type</DialogTitle>
+      <DialogContent className="dialog-content">
+        <Card className="form-card">
+          <CardContent className="card-content">
             <form onSubmit={formik.handleSubmit}>
               <TextField
                 fullWidth
@@ -122,6 +122,7 @@ const RequestTypeDialog: React.FC<RequestTypeDialogProps> = ({
                   formik.touched.requestType && formik.errors.requestType
                 }
                 margin="dense"
+                className="text-field"
               />
               <TextField
                 fullWidth
@@ -135,6 +136,7 @@ const RequestTypeDialog: React.FC<RequestTypeDialogProps> = ({
                 error={formik.touched.purpose && Boolean(formik.errors.purpose)}
                 helperText={formik.touched.purpose && formik.errors.purpose}
                 margin="dense"
+                className="text-field"
               />
               <TextField
                 fullWidth
@@ -152,11 +154,12 @@ const RequestTypeDialog: React.FC<RequestTypeDialogProps> = ({
                   formik.errors.requestTypeOwner
                 }
                 margin="dense"
+                className="text-field"
               />
-              <Grid container spacing={2}>
+              <Grid container spacing={2} className="custom-field-container">
                 {formik.values.informationToCollect.map((field, index) => (
                   <React.Fragment key={index}>
-                    <Grid item xs={3}>
+                    <Grid item xs={3} className="grid-item">
                       <TextField
                         label="Label"
                         value={field.label}
@@ -166,7 +169,7 @@ const RequestTypeDialog: React.FC<RequestTypeDialogProps> = ({
                         fullWidth
                       />
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item xs={3} className="grid-item">
                       <FormControl fullWidth>
                         <InputLabel>Type</InputLabel>
                         <Select
@@ -185,7 +188,7 @@ const RequestTypeDialog: React.FC<RequestTypeDialogProps> = ({
                         </Select>
                       </FormControl>
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item xs={3} className="grid-item">
                       <FormControl fullWidth>
                         <InputLabel>Required</InputLabel>
                         <Select
@@ -203,10 +206,11 @@ const RequestTypeDialog: React.FC<RequestTypeDialogProps> = ({
                         </Select>
                       </FormControl>
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item xs={3} className="grid-item">
                       <IconButton
                         color="secondary"
                         onClick={() => handleRemoveField(index)}
+                        className="icon-button"
                       >
                         <DeleteIcon />
                       </IconButton>
@@ -214,7 +218,11 @@ const RequestTypeDialog: React.FC<RequestTypeDialogProps> = ({
                   </React.Fragment>
                 ))}
               </Grid>
-              <Button onClick={handleAddField} startIcon={<AddIcon />}>
+              <Button
+                onClick={handleAddField}
+                startIcon={<AddIcon />}
+                className="add-field-button"
+              >
                 Add Field
               </Button>
               <DialogActions>
