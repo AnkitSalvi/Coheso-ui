@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/Coheso-ui/static/css/main.b346d482.css",
-    "main.js": "/Coheso-ui/static/js/main.9dce1135.js",
+    "main.js": "/Coheso-ui/static/js/main.6f96e93d.js",
     "static/js/453.258b012d.chunk.js": "/Coheso-ui/static/js/453.258b012d.chunk.js",
     "static/media/HeaderLogo.avif": "/Coheso-ui/static/media/HeaderLogo.ed51a2b2c0694cbe023b.avif",
     "index.html": "/Coheso-ui/index.html",
     "main.b346d482.css.map": "/Coheso-ui/static/css/main.b346d482.css.map",
-    "main.9dce1135.js.map": "/Coheso-ui/static/js/main.9dce1135.js.map",
+    "main.6f96e93d.js.map": "/Coheso-ui/static/js/main.6f96e93d.js.map",
     "453.258b012d.chunk.js.map": "/Coheso-ui/static/js/453.258b012d.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.b346d482.css",
-    "static/js/main.9dce1135.js"
+    "static/js/main.6f96e93d.js"
   ]
 }
